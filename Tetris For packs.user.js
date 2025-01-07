@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Tetris Button Game
 // @namespace    http://tampermonkey.net/
-// @version      3.8
+// @version      3.9
 // @description  Play Tetris, unlock the button after losing
-// @author       You
+// @author       9003
 // @match        https://www.nationstates.net/page=deck*
 // @grant        none
 // ==/UserScript==
@@ -31,7 +31,10 @@
             return piece.blocks.some(([dx, dy]) => {
                 const x = piece.x + dx;
                 const y = piece.y + dy;
-                return y >= 0 && this.board[y][x] === 1; // Check overlap with blue blocks
+                return y >= 0 && this.board[y][x] === 1;
+            }) || piece.blocks.some(([dx, dy]) => {
+                const y = piece.y + dy;
+                return y < 0; // Check if any block is above the board
             });
         },
         init: function (onGameOver) {
